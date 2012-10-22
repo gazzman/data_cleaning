@@ -34,3 +34,4 @@ ticker*.txt
 *.pkl
 *.class
 *.txt
+*.xlsm*
