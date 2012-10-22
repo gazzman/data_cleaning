@@ -2,19 +2,23 @@
 import argparse
 import glob
 
-def print_files(t, windows=False, s='/*'):
+def print_files(t, windows=False, s='/*', display=True):
+    fs = []
     if t[-1] == '/': t = t[:-1]
     count = 1
     path = t + count*s
     f = glob.glob(path)
     while len(f) > 0:
+        fs += f
         filepaths = '\n'.join(f)
-        if windows: print filepaths.replace('/', '\\')
-        else: print filepaths
+        if display:
+            if windows: print filepaths.replace('/', '\\')
+            else: print filepaths
         count += 1
         path = t + count*s
         f = glob.glob(path)
-
+    return fs
+    
 # For running from command line
 if __name__ == "__main__":
     description = 'Print paths to all subfolders and files.'
