@@ -35,3 +35,4 @@ ticker*.txt
 *.class
 *.txt
 *.xlsm*
+tmp
