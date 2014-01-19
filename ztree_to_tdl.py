@@ -19,14 +19,19 @@ def xls_to_tdl(fname):
             key = ''.join( [ LINEPARSE.match(line).group(1), 
                              LINEPARSE.match(line).group(2) ] )
             try:
+                tables[key].index(''.join( 
+                                           [ "timestamp\tsession\t", 
+                                             LINEPARSE.match(line).group(3) ] 
+                                         )
+                                 )
+            except ValueError:
                 tables[key] += [ ''.join( [ LINEPARSE.match(line).group(1), 
                                             LINEPARSE.match(line).group(3) ] ) ]
             except KeyError:
-                tables[key] = [ ''.join( [ "timestamp\tround\t", 
+                tables[key] = [ ''.join( [ "timestamp\tsession\t", 
                                            LINEPARSE.match(line).group(3) ] ) ]
         except AttributeError:
             pass
-
     for key in tables:
         with open('%s.tdl' % key.replace('\t', '_'), 'w') as o:
             o.write('\n'.join(tables[key]))
@@ -56,5 +61,5 @@ if __name__ == '__main__':
     args = p.parse_args()
 
     xls_to_tdl(args.datafile)
-    if len(args.q) == 4:
+    if args.q:
         sbj_to_tdl(*args.q)
