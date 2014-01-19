@@ -14,7 +14,7 @@ if __name__ == '__main__':
     sh = wb.sheet_by_index(0)
 
     if args.header:
-        print ','.join([ '%s' % y for y in sh.row_values(0)])
+        print ','.join([ ('%s' % y).lower() for y in sh.row_values(0)])
     else:
         for x in xrange(1, sh.nrows):
-            print ','.join([ '%s' % y for y in sh.row_values(x)])
+            print ','.join([ "'%s'" % y for y in sh.row_values(x) if str(y) != '' ])
