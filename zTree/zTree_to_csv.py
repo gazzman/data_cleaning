@@ -1,4 +1,6 @@
 #!/usr/bin/python
+from collections import OrderedDict
+from StringIO import StringIO
 import argparse
 import csv
 import sys
@@ -7,9 +9,20 @@ import re
 LINEPARSE = re.compile("(^[0-9]+_[0-9]+\t[0-9]+\t)(globals|subjects|summary|session)\t(.*)")
 IFS = '\r\n'
 
-def xls_to_tdl(fname):
+def tdl_to_csv(filename, list_of_strings, delim='\t'):
     """
-    A method to split ztree data into tab-delimited files with headers
+    Write a delimited list of strings to a csv file.
+    First row must be the header.
+    """
+    header = list_of_strings[0].split(delim)
+    data = [ dict(zip(header, line.split('\t'))) for line in list_of_strings[1:] ]
+    o = csv.DictWriter(open(filename, 'w'), header)
+    o.writerow(OrderedDict(zip(header,header)))
+    o.writerows(data)
+
+def xls_to_csv(fname):
+    """
+    A method to split ztree data into csv files with headers
     """
     f = open(fname, 'r')
     lines = f.read().split(IFS)
@@ -33,12 +46,11 @@ def xls_to_tdl(fname):
         except AttributeError:
             pass
     for key in tables:
-        with open('%s.tdl' % key.replace('\t', '_'), 'w') as o:
-            o.write('\n'.join(tables[key]))
+        tdl_to_csv('%s.csv' % key.replace('\t', '_'), tables[key])
 
-def sbj_to_tdl(fname, timestamp):
+def sbj_to_csv(fname, timestamp):
     """
-    A method for transposing ztree questionnaire data
+    A method for writing ztree questionnaire data to csv
     """
     f = open(fname, 'r')
     lines = [ line.split('\t') for line in f.read().split(IFS) ]
@@ -47,8 +59,7 @@ def sbj_to_tdl(fname, timestamp):
     lines = [times] + [ line for line in lines if len(line) == maxlen ]
     lines = zip(*lines)
     lines = [ '\t'.join(line) for line in lines ]
-    with open('%s_questionnaire.tdl' % timestamp, 'w') as o:
-        o.write('\n'.join(lines))
+    tdl_to_csv('%s_questionnaire.csv' % timestamp, lines)
 
 if __name__ == '__main__':
     description = 'A simple utility for prepping ztree data for db insertion'
@@ -60,6 +71,6 @@ if __name__ == '__main__':
     p.add_argument('-q', nargs=2, metavar=q_meta, help=q_help)
     args = p.parse_args()
 
-    xls_to_tdl(args.datafile)
+    xls_to_csv(args.datafile)
     if args.q:
         sbj_to_tdl(*args.q)
