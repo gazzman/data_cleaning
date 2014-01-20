@@ -13,8 +13,8 @@ Base = declarative_base()
 class Global(Base):
     __tablename__ = 'globals'
     timestamp = Column(DateTime, primary_key=True, index=True)
-    session = Column(Integer, primary_key=True, index=True)
-    Period = Column(Integer, primary_key=True, index=True)
+    session = Column(Integer, primary_key=True, index=True, autoincrement=False)
+    Period = Column(Integer, primary_key=True, index=True, autoincrement=False)
     NumPeriods = Column(Integer)
     RepeatTreatment = Column(Integer)
 
@@ -30,8 +30,8 @@ class Global(Base):
 class Session(Base):
     __tablename__ = 'session'
     timestamp = Column(DateTime, primary_key=True, index=True)
-    session = Column(Integer, primary_key=True, index=True)
-    Subject = Column(Integer, primary_key=True, index=True)
+    session = Column(Integer, primary_key=True, index=True, autoincrement=False)
+    Subject = Column(Integer, primary_key=True, index=True, autoincrement=False)
     FinalProfit = Column(Float)
     ShowUpFee = Column(Float)
     ShowUpFeeInvested = Column(Float)
@@ -48,7 +48,7 @@ class Session(Base):
 class Questionnaire(Base):
     __tablename__ = 'questionnaire'
     timestamp = Column(DateTime, primary_key=True, index=True)
-    Subject = Column(Integer, primary_key=True, index=True)
+    Subject = Column(Integer, primary_key=True, index=True, autoincrement=False)
     client = Column(String)
 
     # Add your experiment's custom questionnaire fields below
@@ -73,9 +73,9 @@ class Subjects(Base):
         ), 
     )
     timestamp = Column(DateTime, primary_key=True, index=True)
-    session = Column(Integer, primary_key=True, index=True)
-    Period = Column(Integer, primary_key=True, index=True)
-    Subject = Column(Integer, primary_key=True, index=True)
+    session = Column(Integer, primary_key=True, index=True, autoincrement=False)
+    Period = Column(Integer, primary_key=True, index=True, autoincrement=False)
+    Subject = Column(Integer, primary_key=True, index=True, autoincrement=False)
     Group = Column(Integer)
     Profit = Column(Float)
     TotalProfit = Column(Float)
@@ -95,8 +95,8 @@ class Summary(Base):
         ), 
     )
     timestamp = Column(DateTime, primary_key=True, index=True)
-    session = Column(Integer, primary_key=True, index=True)
-    Period = Column(Integer, primary_key=True, index=True)
+    session = Column(Integer, primary_key=True, index=True, autoincrement=False)
+    Period = Column(Integer, primary_key=True, index=True, autoincrement=False)
     # Add your experiment's custom summary fields below
 
 
