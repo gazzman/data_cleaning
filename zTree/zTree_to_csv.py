@@ -73,4 +73,4 @@ if __name__ == '__main__':
 
     xls_to_csv(args.datafile)
     if args.q:
-        sbj_to_tdl(*args.q)
+        sbj_to_csv(*args.q)
