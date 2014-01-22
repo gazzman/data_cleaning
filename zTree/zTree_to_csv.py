@@ -6,7 +6,7 @@ import csv
 import sys
 import re
 
-LINEPARSE = re.compile("(^[0-9]+_[0-9]+\t[0-9]+\t)(globals|subjects|summary|session)\t(.*)")
+LINEPARSE = re.compile("(^[0-9]+_[0-9]+\t[0-9]+\t)(globals|subjects|summary|session)\t(.*)\t$")
 IFS = '\r\n'
 
 def tdl_to_csv(filename, list_of_strings, delim='\t'):
@@ -16,8 +16,8 @@ def tdl_to_csv(filename, list_of_strings, delim='\t'):
     """
     header = list_of_strings[0].split(delim)
     data = [ dict(zip(header, line.split('\t'))) for line in list_of_strings[1:] ]
+    data = [OrderedDict(zip(header,header))] + data
     o = csv.DictWriter(open(filename, 'w'), header)
-    o.writerow(OrderedDict(zip(header,header)))
     o.writerows(data)
 
 def xls_to_csv(fname):
