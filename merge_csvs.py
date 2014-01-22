@@ -1,8 +1,9 @@
 #!/usr/bin/python
+from collections import OrderedDict
 import argparse
 import csv
 
-__version__ = ".01"
+__version__ = ".02"
 __author__ = "gazzman"
 __copyright__ = "(C) 2012 gazzman GNU GPL 3."
 __contributors__ = []
@@ -16,8 +17,8 @@ def merge_csvs(filenames, merged_csv):
         headers += [x for x in csvs[-1].fieldnames if not x in headers]
 
     with open(merged_csv, 'w') as f:
-        f.write(','.join(headers) + '\n')
         mcsv = csv.DictWriter(f, headers)
+        mcsv.writerow(OrderedDict(zip(headers, headers))) 
         for csv_file in csvs:
             for row in csv_file:
                 mcsv.writerow(row)
