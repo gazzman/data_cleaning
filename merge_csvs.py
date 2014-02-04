@@ -46,6 +46,6 @@ if __name__ == "__main__":
     with open(args.csv_list_file) as f:
         for line in f:
             filename = line.strip()
-            if filename[0] != '#': filenames += [filename]
-
+            if len(filename) > 0:
+                if filename[0] != '#': filenames += [filename]
     merge_csvs(filenames, args.merged_csv)
